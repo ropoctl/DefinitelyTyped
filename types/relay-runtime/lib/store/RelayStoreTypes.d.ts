@@ -388,11 +388,19 @@ export interface ReadOnlyRecordProxy {
  */
 
 export interface RecordSourceProxy {
-    create(dataID: DataID, typeName: string): RecordProxy;
-    delete(dataID: DataID): void;
-    // eslint-disable-next-line no-unnecessary-generics
-    get<T = {}>(dataID: DataID): RecordProxy<T> | null | undefined;
-    getRoot(): RecordProxy;
+  create(dataID: DataID, typeName: string): RecordProxy;
+  delete(dataID: DataID): void;
+  get(dataID: DataID): ?RecordProxy;
+  getRoot(): RecordProxy;
+  invalidateStore(): void;
+  readUpdatableQuery<TVariables: Variables, TData>(
+    query: UpdatableQuery<TVariables, TData>,
+    variables: TVariables,
+  ): UpdatableData<TData>;
+  readUpdatableFragment<TFragmentType: FragmentType, TData>(
+    fragment: UpdatableFragment<TFragmentType, TData>,
+    fragmentReference: HasUpdatableSpread<TFragmentType>,
+  ): UpdatableData<TData>;
 }
 
 export interface ReadOnlyRecordSourceProxy {
